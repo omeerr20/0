@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سوق السيارات المستعملة </title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #00C853;
+            --dark-bg: #1A1A1A;
+            --card-bg: #242424;
+            --text-primary: #FFFFFF;
+            --text-secondary: #AAAAAA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-primary);
+            line-height: 1.6;
+            background-image: url('images/cars/background.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            z-index: -1;
+        }
+        
+        .container {
+            width: 95%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* الترويسة */
+        header {
+            background-color: var(--dark-bg);
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .logo {
+            text-align: right;
+            margin-bottom: 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo h1 {
+            color: var(--text-primary);
+            font-size: 1.8rem;
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: flex-end;
+            list-style: none;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        
+        nav ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        nav ul li a:hover {
+            color: var(--primary-color);
+        }
+        
+        /* المحتوى الرئيسي */
+        .hero {
+            text-align: right;
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--card-bg);
+            margin: 40px 0;
+            border-radius: 20px;
+        }
+
+        .hero-content {
+            width: 50%;
+            padding-right: 50px;
+        }
+        
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            font-size: 1.2rem;
+        }
+        
+        .hero-image {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45%;
+            height: auto;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--text-primary);
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background-color: #00A844;
+            transform: translateY(-2px);
+        }
+        
+        /* قسم السيارات */
+        .featured-cars {
+            margin: 80px 0;
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .section-title {
+            text-align: right;
+            margin-bottom: 40px;
+            font-size: 2rem;
+            color: var(--text-primary);
+        }
+        
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+        }
+        
+        .car-card {
+            background-color: rgba(36, 36, 36, 0.9);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .car-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .car-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .car-info {
+            padding: 20px;
+        }
+        
+        .car-info h3 {
+            color: var(--text-primary);
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .car-info p {
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            font-size: 1rem;
+        }
+        
+        .car-features {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            color: var(--text-secondary);
+        }
+
+        .car-feature {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .price {
+            color: var(--primary-color);
+            font-weight: bold;
+            font-size: 1.4rem;
+            margin: 15px 0;
+        }
+
+        /* قسم العلامات التجارية */
+        .brands {
+            margin: 60px 0;
+            text-align: center;
+            background-color: rgba(26, 26, 26, 0.9);
+            padding: 40px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .brand-logo {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .brand-logo:hover {
+            transform: translateY(-5px);
+        }
+
+        .brand-logo img {
+            max-width: 100px;
+            height: auto;
+            filter: brightness(0.8);
+        }
+        
+        /* التذييل */
+        footer {
+            background-color: var(--card-bg);
+            padding: 60px 0 30px;
+            margin-top: 80px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+        
+        .footer-section p, .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary-color);
+        }
+        
+        .copyright {
+            text-align: center;
+            color: var(--text-secondary);
+            padding-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                width: 100%;
+                padding: 20px;
+                text-align: center;
+            }
+
+            .hero-image {
+                position: relative;
+                width: 100%;
+                margin-top: 30px;
+                transform: none;
+            }
+
+            .hero {
+                padding: 40px 0;
+            }
+
+            .hero h2 {
+                font-size: 2rem;
+            }
+        }
+
+        .cars-grid {
+            margin-bottom: 40px;
+        }
+
+        /* أزرار التصفية */
+        .filter-buttons {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background-color: var(--card-bg);
+            color: var(--text-primary);
+            border: 1px solid var(--primary-color);
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .car-card {
+            display: block;
+        }
+
+        .car-card.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">
+                <h1>الأصدقاء</h1>
+            <nav>
+                <ul>
+                    <li><a href="index.html">الرئيسية</a></li>
+                        <li><a href="cars.html">السيارات</a></li>
+                        <li><a href="sell.html">بيع سيارتك</a></li>
+                        <li><a href="about.html">من نحن</a></li>
+                    <li><a href="contact.html">اتصل بنا</a></li>
+                        <li><a href="login.html" class="btn">تسجيل الدخول</a></li>
+                </ul>
+            </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <div class="hero-content">
+                <h2>اشتري أو بيع سيارة أحلامك</h2>
+                <p>أكبر سوق للسيارات المستعملة في السودان. نوفر لك تجربة آمنة وموثوقة لشراء وبيع السيارات.</p>
+                <a href="cars.html" class="btn">ابحث عن سيارتك</a>
+            </div>
+            <img src="images/cars/luxury-car.jpg" alt="سيارة فاخرة" class="hero-image">
+        </section>
+
+        <section class="featured-cars">
+            <div class="filter-buttons">
+                <button class="filter-btn active" data-brand="all">جميع السيارات</button>
+                <button class="filter-btn" data-brand="nissan">نيسان</button>
+                <button class="filter-btn" data-brand="toyota">تويوتا</button>
+                <button class="filter-btn" data-brand="hyundai">هيونداي</button>
+            </div>
+            <div class="cars-grid">
+                <div class="car-card" data-brand="nissan">
+                    <img src="images/cars/patrol-platinum.jpg" alt="نيسان باترول">
+                    <div class="car-info">
+                        <h3>نيسان باترول بلاتينيوم 2016</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2016</span>
+                            <span class="car-feature">5,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">100.000.000 جنيه</p>
+                        <a href="patrol2016.html?id=patrol2016" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-brand="nissan">
+                    <img src="images/cars/patrol-platinum2.jpg" alt="نيسان باترول">
+                    <div class="car-info">
+                        <h3>نيسان باترول بلاتينيوم 2014</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2014</span>
+                            <span class="car-feature">50,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">105.000.000 جنيه</p>
+                        <a href="patrol2014.html?id=patrol2014" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-brand="toyota">
+                    <img src="images/cars/hilux2021/car0.jpg" alt="تيوتا هايلوكس 2021">
+                    <div class="car-info">
+                        <h3>تيوتا هايلوكس 2021</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2021</span>
+                            <span class="car-feature">15,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">90.000.000 جنيه</p>
+                        <a href="hilux2021.html?id=hilux2021" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-brand="toyota">
+                    <img src="images/cars/prado-se.jpg" alt="تيوتا برادو 2018">
+                    <div class="car-info">
+                        <h3>تيوتا برادو 2018</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2018</span>
+                            <span class="car-feature">20,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">120.000.000 جنيه</p>
+                        <a href="prado2018.html?id=prado2018" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-brand="toyota">
+                    <img src="images/cars/cruiser-se.jpg" alt="تيوتا لاند كروزر 2023">
+                    <div class="car-info">
+                        <h3>تيوتا لاند كروزر 2023</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2023</span>
+                            <span class="car-feature">10,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">180.000.000 جنيه</p>
+                        <a href="landcruiser2023.html?id=landcruiser2023" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card"data-brand="toyota">
+                    <img src="images/cars/hilux-se2.jpg" alt="تيوتا هايلوكس 2016">
+                    <div class="car-info">
+                        <h3>تيوتا هايلوكس 2018</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2018</span>
+                            <span class="car-feature">15,000 كم</span>
+                            <span class="car-feature">عادي</span>
+                        </div>
+                        <p class="price">90.000.000 جنيه</p>
+                        <a href="hilux2018.html?id=hilux2018" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-brand="hyundai">
+                    <img src="images/cars/tucon-se2.jpg" alt="هيونداي توسان 2018">
+                    <div class="car-info">
+                        <h3>هيونداي توسان 2018</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2018</span>
+                            <span class="car-feature">90,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">35.000.000 جنيه</p>
+                        <a href="tucson2018_1.html?id=tucson2018_1" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+
+                <div class="car-card" data-brand="hyundai">
+                    <img src="images/cars/tucon-se.jpg" alt="هيونداي توسان 2018">
+                    <div class="car-info">
+                        <h3>هيونداي توسان 2018</h3>
+                        <div class="car-features">
+                            <span class="car-feature">2018</span>
+                            <span class="car-feature">50,000 كم</span>
+                            <span class="car-feature">اوتوماتيك</span>
+                        </div>
+                        <p class="price">70.000.000 جنيه</p>
+                        <a href="tucson2018_2.html?id=tucson2018_2" class="btn">عرض التفاصيل</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="brands">
+            <h2 class="section-title">العلامات التجارية المتوفرة</h2>
+            <div class="brands-grid">
+                <div class="brand-logo">
+                    <img src="images/brands/Nissan.png" alt="Nissan">
+                </div>
+                <div class="brand-logo">
+                    <img src="images/brands/toyota.png" alt="Toyota">
+                </div>
+                <div class="brand-logo">
+                    <img src="images/brands/Hyundai.png" alt="Hyundai">
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>عن الشركة</h3>
+                    <p>نحن منصة رائدة في مجال بيع وشراء السيارات المستعملة في السودان، نوفر خدمات موثوقة وآمنة لعملائنا.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>روابط سريعة</h3>
+                    <a href="#">السيارات المتاحة</a>
+                    <a href="#">بيع سيارتك</a
+                </div>
+                <div class="footer-section">
+                    <h3>تواصل معنا</h3>
+                    <p>الخرطوم، السودان</p>
+                    <p>هاتف: 123-456-789</p>
+                    <p>البريد الإلكتروني: info@automarket.com</p>
+            </div>
+            </div>
+            <div class="copyright">
+                <p>جميع الحقوق محفوظة &copy; 2025 جامعة الرباط الوطني </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // كود الفرز حسب الشركة المصنعة
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const carCards = document.querySelectorAll('.car-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // إزالة الفئة النشطة من جميع الأزرار
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // إضافة الفئة النشطة للزر المحدد
+                    button.classList.add('active');
+
+                    const selectedBrand = button.getAttribute('data-brand');
+
+                    carCards.forEach(card => {
+                        if (selectedBrand === 'all') {
+                            card.classList.remove('hidden');
+                        } else {
+                            if (card.getAttribute('data-brand') === selectedBrand) {
+                                card.classList.remove('hidden');
+                            } else {
+                                card.classList.add('hidden');
+                            }
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
